@@ -9,54 +9,76 @@
 
   cw1.addEventListener("click", function () {
     answer.innerHTML = "Loading...";
+
     fetch("https://jsonplaceholder.typicode.com/posts")
       .then((response) => response.json())
       .then((array) => {
-        answer.innerHTML = "";
-        const ul = document.createElement("ul");
-        array.forEach((el) => {
-          const li = document.createElement("li");
-          li.textContent = `Post nr ${el.id}, userId: ${el.userId}`;
-          ul.appendChild(li);
+        const rows = array
+          .map(
+            (el) => `
+              <tr>
+                <td>${el.id}</td>
+                <td>${el.userId}</td>
+                <td class="title">${el.title}</td>
+                <td class="body">${el.body}</td>
+              </tr>
+            `,
+          )
+          .join("");
 
-          const ul2 = document.createElement("ul");
-          li.appendChild(ul2);
-          const title = document.createElement("li");
-          title.textContent = el.title;
-          const body = document.createElement("li");
-          body.textContent = el.body;
-
-          ul2.appendChild(title);
-          ul2.appendChild(body);
-        });
-        answer.appendChild(ul);
+        answer.innerHTML = `
+          <table border="1">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>User ID</th>
+                <th>Tytuł</th>
+                <th>Treść</th>
+              </tr>
+            </thead>
+            <tbody border="0">
+              ${rows}
+            </tbody>
+          </table>
+        `;
+      })
+      .catch((error) => {
+        answer.innerHTML = "Wystąpił błąd podczas pobierania danych.";
+        console.error(error);
       });
   });
 
   cw2.addEventListener("click", function () {
     const postId = document.getElementById("cw2_select").value;
+    answer.innerHTML = "Loading...";
 
     fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
       .then((response) => response.json())
       .then((el) => {
-        answer.innerHTML = "";
-        const ul = document.createElement("ul");
-
-        const li = document.createElement("li");
-        li.textContent = `Post nr ${el.id}, userId: ${el.userId}`;
-        ul.appendChild(li);
-
-        const ul2 = document.createElement("ul");
-        li.appendChild(ul2);
-        const title = document.createElement("li");
-        title.textContent = el.title;
-        const body = document.createElement("li");
-        body.textContent = el.body;
-
-        ul2.appendChild(title);
-        ul2.appendChild(body);
-
-        answer.appendChild(ul);
+        answer.innerHTML = `
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>User ID</th>
+                <th>Tytuł</th>
+                <th>Treść</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>${el.id}</td>
+                <td>${el.userId}</td>
+                <td class="title">${el.title}</td>
+                <td class="body">${el.body}</td>
+              </tr>
+            </tbody>
+          </table>
+        `;
+      })
+      .catch((error) => {
+        answer.innerHTML = "Wystąpił błąd podczas pobierania danych.";
+        console.error(error);
       });
   });
 

@@ -2,3 +2,25 @@ html {
   height: 100%;
   width: 100%;
 }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid #000;
+}
+
+.post {
+  text-align: center;
+}
+
+.title {
+  color: red;
+}
+
+.body {
+  color: green;
+}
