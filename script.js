@@ -55,6 +55,7 @@
     fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
       .then((response) => response.json())
       .then((el) => {
+        console.log(el);
         answer.innerHTML = `
           <table>
             <thead>
