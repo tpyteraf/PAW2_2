@@ -5,13 +5,21 @@
   const cw3 = document.getElementById("cw3");
   const answer = document.getElementById("answer");
 
+  const loading = document.getElementById("loading-popup");
+
+  const showLoading = () => loading.classList.remove("hidden");
+  const hideLoading = () => loading.classList.add("hidden");
+
   example.addEventListener("click", function () {});
 
+  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
   cw1.addEventListener("click", function () {
-    answer.innerHTML = "Loading...";
+    showLoading();
 
     fetch("https://jsonplaceholder.typicode.com/posts")
       .then((response) => response.json())
+      .then((el) => delay(1500).then(() => el))
       .then((array) => {
         const rows = array
           .map(
@@ -41,6 +49,7 @@
             </tbody>
           </table>
         `;
+        hideLoading();
       })
       .catch((error) => {
         answer.innerHTML = "Wystąpił błąd podczas pobierania danych.";
@@ -50,7 +59,7 @@
 
   cw2.addEventListener("click", function () {
     const postId = document.getElementById("cw2_select").value;
-    answer.innerHTML = "Loading...";
+    showLoading();
 
     fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`)
       .then((response) => response.json())
@@ -76,6 +85,7 @@
             </tbody>
           </table>
         `;
+        hideLoading();
       })
       .catch((error) => {
         answer.innerHTML = "Wystąpił błąd podczas pobierania danych.";
